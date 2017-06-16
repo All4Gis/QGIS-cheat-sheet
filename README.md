@@ -2,6 +2,32 @@
 
 Cheat sheet for PyQgis
 
+Canvas
+---
+
+
+TOC
+---
+
+__Access checked Layers__
+
+	iface.mapCanvas().layers()
+
+__Obtain Layers name__
+
+	canvas = iface.mapCanvas()
+	layers = [canvas.layer(i) for i in range(canvas.layerCount())]
+	layers_names = [ layer.name() for layer in layers ]
+	print "layers TOC = ", layers_names
+
+__Add vector layer__
+
+	layer = iface.addVectorLayer("input.shp", "name", "ogr")
+	if not layer:
+	  print "Layer failed to load!"
+
+
+
 
 Processing algorithms 
 ---
