@@ -4,6 +4,9 @@ Cheat sheet for PyQgis
 
 Canvas
 ---
+__Access Canvas__
+
+	canvas = iface.mapCanvas()
 
 
 TOC
