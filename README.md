@@ -23,3 +23,22 @@ __Get algorithms Options__
 Random selection
 
 	processing.algoptions('qgis:randomselection')
+
+
+
+
+
+Sources
+---
+
+<http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/>
+
+<http://qgis.org/api/>
+
+<https://stackoverflow.com/questions/tagged/qgis>
+
+<https://gis.stackexchange.com/questions/tagged/pyqgis>
+
+
+
+
