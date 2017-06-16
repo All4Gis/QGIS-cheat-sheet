@@ -29,8 +29,17 @@ __Add vector layer__
 	if not layer:
 	  print "Layer failed to load!"
 
+__Find layer by name__
 
+	from qgis.core import QgsMapLayerRegistry
+	layer = QgsMapLayerRegistry.instance().mapLayersByName("name")[0]
+	print layer.name()
 
+__Set Active layer__
+
+	from qgis.core import QgsMapLayerRegistry
+	layer = QgsMapLayerRegistry.instance().mapLayersByName("name")[0]
+	iface.setActiveLayer(layer)
 
 Processing algorithms 
 ---
