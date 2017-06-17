@@ -41,6 +41,10 @@ __Set Active layer__
 	layer = QgsMapLayerRegistry.instance().mapLayersByName("name")[0]
 	iface.setActiveLayer(layer)
 
+__Remove all layers__
+
+	QgsMapLayerRegistry.instance().removeAllMapLayers()
+
 Processing algorithms 
 ---
 
