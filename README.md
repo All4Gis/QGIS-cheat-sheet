@@ -81,6 +81,8 @@ Sources
 
 <https://gis.stackexchange.com/questions/tagged/pyqgis>
 
+<https://webgeodatavore.github.io/pyqgis-samples/>
+
 
 
 
