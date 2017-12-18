@@ -67,6 +67,16 @@ Random selection
 	processing.algoptions('qgis:randomselection')
 
 
+Settings
+---
+
+__Get QSettings list__
+
+	from PyQt4.QtCore import QSettings
+	qs = QSettings()
+
+	for k in sorted(qs.allKeys()):
+		print k
 
 
 
