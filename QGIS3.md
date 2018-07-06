@@ -28,3 +28,12 @@ Random selection
 	import processing
 	processing.algorithmHelp("qgis:randomselection")
 
+
+TOC
+---
+
+__see the CRS__
+
+	for layer in QgsProject().instance().mapLayers().values():   
+	    crs = layer.crs().authid()
+	    layer.setName(layer.name() + ' (' + crs + ')')
