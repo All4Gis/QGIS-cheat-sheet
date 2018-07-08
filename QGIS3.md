@@ -37,3 +37,18 @@ __see the CRS__
 	for layer in QgsProject().instance().mapLayers().values():   
 	    crs = layer.crs().authid()
 	    layer.setName(layer.name() + ' (' + crs + ')')
+
+__Load all layers from GeoPackage__
+
+	fileName = "sample.gpkg"
+	layer = QgsVectorLayer(fileName,"test","ogr")
+	subLayers =layer.dataProvider().subLayers()
+
+	for subLayer in subLayers:
+		name = subLayer.split('!!::!!')[1]
+		uri = "%s|layername=%s" % (fileName, name,)
+		#Create layer
+		sub_vlayer = QgsVectorLayer(uri, name, 'ogr')
+		#Add layer to map
+		QgsProject.instance().addMapLayer(sub_vlayer)
+
