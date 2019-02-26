@@ -36,6 +36,10 @@ Random selection
 	processing.algorithmHelp("qgis:randomselection")
 
 
+__How many algorithms are there?__
+
+	len(QgsApplication.processingRegistry().algorithms())
+
 TOC
 ---
 
