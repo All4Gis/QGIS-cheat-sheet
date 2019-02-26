@@ -49,6 +49,11 @@ __Obtain Layers name__
 	layers = [canvas.layer(i) for i in range(canvas.layerCount())]
 	layers_names = [ layer.name() for layer in layers ]
 	print "layers TOC = ", layers_names
+	
+	or
+	
+	layers = [layer for layer in QgsProject.instance().mapLayers().values()]
+
 
 __Add vector layer__
 
@@ -95,6 +100,11 @@ __Load all layers from GeoPackage__
 Layers
 ---
 
+__Add Vector layer__
+
+	layer = iface.addVectorLayer("/path/to/shapefile/file.shp", "layer name you like", "ogr")
+
+
 __Hide a field column__
 
 	def fieldVisibility (layer,fname):
@@ -111,6 +121,11 @@ __Move geometry__
 	geom = feat.geometry()
 	geom.translate(100, 100)
 	feat.setGeometry(geom)
+
+__Adding new feature__
+
+	iface.openFeatureForm(iface.activeLayer(), QgsFeature(), False)
+
 
 Settings
 ---
