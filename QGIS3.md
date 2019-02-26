@@ -72,7 +72,7 @@ __Remove all layers__
 
 	QgsProject.instance().removeAllMapLayers()
 
-__see the CRS__
+__See the CRS__
 
 	for layer in QgsProject().instance().mapLayers().values():   
 	    crs = layer.crs().authid()
