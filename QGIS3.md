@@ -3,6 +3,13 @@
 
 Cheat sheet for PyQgis
 
+Canvas
+---
+__Access Canvas__
+
+	canvas = iface.mapCanvas()
+
+
 Processing algorithms 
 ---
 
@@ -32,6 +39,39 @@ Random selection
 TOC
 ---
 
+__Access checked Layers__
+
+	iface.mapCanvas().layers()
+
+__Obtain Layers name__
+
+	canvas = iface.mapCanvas()
+	layers = [canvas.layer(i) for i in range(canvas.layerCount())]
+	layers_names = [ layer.name() for layer in layers ]
+	print "layers TOC = ", layers_names
+
+__Add vector layer__
+
+	layer = iface.addVectorLayer("input.shp", "name", "ogr")
+	if not layer:
+	  print "Layer failed to load!"
+
+__Find layer by name__
+
+	from qgis.core import QgsProject
+	layer = QgsProject.instance().mapLayersByName("name")[0]
+	print layer.name()
+
+__Set Active layer__
+
+	from qgis.core import QgsProject
+	layer = QgsProject.instance().mapLayersByName("name")[0]
+	iface.setActiveLayer(layer)
+
+__Remove all layers__
+
+	QgsProject.instance().removeAllMapLayers()
+
 __see the CRS__
 
 	for layer in QgsProject().instance().mapLayers().values():   
@@ -51,4 +91,15 @@ __Load all layers from GeoPackage__
 		sub_vlayer = QgsVectorLayer(uri, name, 'ogr')
 		#Add layer to map
 		QgsProject.instance().addMapLayer(sub_vlayer)
+		
+Settings
+---
+
+__Get QSettings list__
+
+	from PyQt5.QtCore import QSettings
+	qs = QSettings()
+
+	for k in sorted(qs.allKeys()):
+	    print (k)
 
