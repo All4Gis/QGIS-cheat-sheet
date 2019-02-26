@@ -91,7 +91,27 @@ __Load all layers from GeoPackage__
 		sub_vlayer = QgsVectorLayer(uri, name, 'ogr')
 		#Add layer to map
 		QgsProject.instance().addMapLayer(sub_vlayer)
-		
+
+Layers
+---
+
+__Hide a field column__
+
+	def fieldVisibility (layer,fname):
+	  setup = QgsEditorWidgetSetup('Hidden', {})
+	  for i, column in enumerate(layer.fields()):
+	    if column.name()==fname:
+	      layer.setEditorWidgetSetup(idx, setup)
+		break
+	    else:
+	      continue
+	      
+__Move geometry__      
+
+	geom = feat.geometry()
+	geom.translate(100, 100)
+	feat.setGeometry(geom)
+
 Settings
 ---
 
@@ -102,4 +122,29 @@ __Get QSettings list__
 
 	for k in sorted(qs.allKeys()):
 	    print (k)
+
+
+
+Common PyQGIS functions
+---
+
+https://github.com/boundlessgeo/lib-qgis-commons
+
+https://github.com/inasafe/inasafe/tree/master/safe/utilities
+
+https://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/index.html
+
+https://pcjericks.github.io/py-gdalogr-cookbook/index.html
+
+http://www.green-forums.info/greenlib/geolibrary/Lawhead%20J/QGIS%20Python%20Programming%20Cookbook.%2020%20%2852%29/QGIS%20Python%20Programming%20Cookboo%20-%20Lawhead%20J.pdf (a commercial 2015 book, but seems to have been released for download)
+
+
+Sources
+---
+
+<http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/>
+
+<http://qgis.org/api/>
+
+<https://stackoverflow.com/questions/tagged/qgis>
 
