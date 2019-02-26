@@ -1,4 +1,10 @@
 
+- - -
+
+**_This project is not actively maintained._**
+
+- - - 
+
 # QGIS 2 cheat sheet
 
 Cheat sheet for PyQgis
