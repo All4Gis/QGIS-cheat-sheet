@@ -3,12 +3,26 @@
 
 Cheat sheet for PyQgis
 
+## Table of Contents
+
+- [Canvas](#canvas)
+- [Processing algorithms](#processing-algorithms)
+- [TOC](#toc)
+- [Layers](#layers)
+- [Settings](#settings)
+- [ToolBars](#toolbars)
+- [Menus](#menus)
+- [Common PyQGIS functions](#common-pyqgis-functions)
+- [Sources](#sources)
+
+
 Canvas
 ---
 __Access Canvas__
 
 	canvas = iface.mapCanvas()
 
+&uparrow; [Back to top](#table-of-contents)
 
 Processing algorithms 
 ---
@@ -41,6 +55,8 @@ Random selection
 __How many algorithms are there?__
 
 	len(QgsApplication.processingRegistry().algorithms())
+
+&uparrow; [Back to top](#table-of-contents)
 
 TOC
 ---
@@ -103,6 +119,9 @@ __Load all layers from GeoPackage__
 		#Add layer to map
 		QgsProject.instance().addMapLayer(sub_vlayer)
 
+
+&uparrow; [Back to top](#table-of-contents)
+
 Layers
 ---
 
@@ -162,6 +181,8 @@ __Layer from WKT__
 	layer.updateExtents()
 	QgsProject.instance().addMapLayers([layer])
 
+&uparrow; [Back to top](#table-of-contents)
+
 Settings
 ---
 
@@ -173,6 +194,8 @@ __Get QSettings list__
 	for k in sorted(qs.allKeys()):
 	    print (k)
 
+
+&uparrow; [Back to top](#table-of-contents)
 
 ToolBars
 ---
@@ -194,6 +217,8 @@ __Remove actions toolbar__
 	iface.attributesToolBar().addAction(actions[4])
 	iface.attributesToolBar().addAction(actions[3])
 
+&uparrow; [Back to top](#table-of-contents)
+
 Menus
 ---
 
@@ -206,6 +231,8 @@ __Remove Menu__
 	#and add again
 	menubar.addAction(menu.menuAction())
 
+
+&uparrow; [Back to top](#table-of-contents)
 
 Common PyQGIS functions
 ---
@@ -220,6 +247,7 @@ https://pcjericks.github.io/py-gdalogr-cookbook/index.html
 
 http://www.green-forums.info/greenlib/geolibrary/Lawhead%20J/QGIS%20Python%20Programming%20Cookbook.%2020%20%2852%29/QGIS%20Python%20Programming%20Cookboo%20-%20Lawhead%20J.pdf (a commercial 2015 book, but seems to have been released for download)
 
+&uparrow; [Back to top](#table-of-contents)
 
 Sources
 ---
@@ -229,4 +257,6 @@ Sources
 <http://qgis.org/api/>
 
 <https://stackoverflow.com/questions/tagged/qgis>
+
+&uparrow; [Back to top](#table-of-contents)
 
