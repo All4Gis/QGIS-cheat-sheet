@@ -17,7 +17,9 @@ __Get algorithms list__
 
 	for alg in QgsApplication.processingRegistry().algorithms():
 		print("{}:{} --> {}".format(alg.provider().name(), alg.name(), alg.displayName()))
-		
+	
+	# or 
+	
 	def alglist():
 	  s = ''
 	  for i in QgsApplication.processingRegistry().algorithms():
@@ -108,7 +110,26 @@ __Add Vector layer__
 
 	layer = iface.addVectorLayer("/path/to/shapefile/file.shp", "layer name you like", "ogr")
 
+__Get Active Layer__
 
+	layer = iface.activeLayer()
+
+__Show methods__
+
+	dir(layer)
+	
+__Get Features__
+
+	for f in layer.getFeatures():
+		print (f)
+  
+ __Get Geometry__
+ 
+	 for f in layer.getFeatures():
+	  geom = f.geometry()
+	  print ('%s, %s, %f, %f' % (f['NAME'], f['USE'],
+		 geom.asPoint().y(), geom.asPoint().x()))
+ 
 __Hide a field column__
 
 	def fieldVisibility (layer,fname):
@@ -130,6 +151,16 @@ __Adding new feature__
 
 	iface.openFeatureForm(iface.activeLayer(), QgsFeature(), False)
 
+__Layer from WKT__
+
+	layer = QgsVectorLayer('Polygon?crs=epsg:4326', 'Mississippi', 'memory')
+	pr = layer.dataProvider()
+	poly = QgsFeature()
+	geom = QgsGeometry.fromWkt("POLYGON ((-88.82 34.99,-88.0934.89,-88.39 30.34,-89.57 30.18,-89.73 31,-91.63 30.99,-90.8732.37,-91.23 33.44,-90.93 34.23,-90.30 34.99,-88.82 34.99))")
+	poly.setGeometry(geom)
+	pr.addFeatures([poly])
+	layer.updateExtents()
+	QgsProject.instance().addMapLayers([layer])
 
 Settings
 ---
@@ -142,6 +173,38 @@ __Get QSettings list__
 	for k in sorted(qs.allKeys()):
 	    print (k)
 
+
+ToolBars
+---
+
+__Remove Toolbar__
+
+	toolbar = iface.helpToolBar()	
+	parent = toolbar.parentWidget()
+	parent.removeToolBar(toolbar)
+
+	#and add again
+	
+	parent.addToolBar(toolbar)
+
+__Remove actions toolbar__
+
+	actions = iface.attributesToolBar().actions()
+	iface.attributesToolBar().clear()
+	iface.attributesToolBar().addAction(actions[4])
+	iface.attributesToolBar().addAction(actions[3])
+
+Menus
+---
+
+__Remove Menu__
+
+	menu = iface.helpMenu()	
+	menubar = menu.parentWidget()
+	menubar.removeAction(menu.menuAction())
+
+	#and add again
+	menubar.addAction(menu.menuAction())
 
 
 Common PyQGIS functions
