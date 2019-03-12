@@ -5,6 +5,7 @@ Cheat sheet for PyQgis
 
 ## Table of Contents
 
+- [UI](#ui)
 - [Canvas](#canvas)
 - [Processing algorithms](#processing-algorithms)
 - [TOC](#toc)
@@ -16,6 +17,20 @@ Cheat sheet for PyQgis
 - [Common PyQGIS functions](#common-pyqgis-functions)
 - [Sources](#sources)
 
+
+UI
+---
+__Change Look & Feel__
+
+	app = QApplication.instance()
+	qss_file = open(r"style.qss").read()
+	app.setStyleSheet(qss_file)
+
+__Change Icon and Title__
+
+	icon = QIcon(r"logo.png")
+	iface.mainWindow().setWindowIcon(icon)	
+	iface.mainWindow().setWindowTitle("CNE")
 
 Canvas
 ---
