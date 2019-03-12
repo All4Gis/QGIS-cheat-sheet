@@ -23,6 +23,11 @@ __Access Canvas__
 
 	canvas = iface.mapCanvas()
 
+__Change Canvas color__
+
+	iface.mapCanvas().setCanvasColor(QtCore.Qt.black)		
+	iface.mapCanvas().refresh()
+
 &uparrow; [Back to top](#table-of-contents)
 
 Processing algorithms 
@@ -99,6 +104,11 @@ __Set Active layer__
 __Remove all layers__
 
 	QgsProject.instance().removeAllMapLayers()
+
+__Remove Contextual menu__
+
+	ltv = iface.layerTreeView()
+	ltv.setMenuProvider( None )	
 
 __See the CRS__
 
@@ -189,7 +199,21 @@ __Expand Node__
 
 	print (node_group1.isExpanded())
 	node_group1.setExpanded(False)
-	
+
+__Hidden Node Trick__
+
+	model = iface.layerTreeView().layerTreeModel()
+	ltv = iface.layerTreeView()
+	root = QgsProject.instance().layerTreeRoot()
+
+	layer = QgsProject.instance().mapLayersByName(u'Name')[0]
+	node=root.findLayer( layer.id())
+
+	index = model.node2index( node )
+	ltv.setRowHidden( index.row(), index.parent(), True )
+	node.setCustomProperty( 'nodeHidden', 'true')
+	ltv.setCurrentIndex(model.node2index(root))  
+
 __Node Signals__
 
 	def onWillAddChildren(node, indexFrom, indexTo):
