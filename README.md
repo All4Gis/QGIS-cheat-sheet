@@ -1,5 +1,5 @@
 # QGIS 3 
-[QGIS 3 cheat sheet](https://github.com/All4Gis/QGIS-cheat-sheet/tree/master/QGIS3.rst)
+[QGIS 3 cheat sheet](https://github.com/All4Gis/QGIS-cheat-sheet/tree/master/QGIS3.md)
 
 # Contributions are welcome!
 
