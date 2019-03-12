@@ -8,6 +8,7 @@ Cheat sheet for PyQgis
 - [Canvas](#canvas)
 - [Processing algorithms](#processing-algorithms)
 - [TOC](#toc)
+- [Advanced TOC](#advanced-toc)
 - [Layers](#layers)
 - [Settings](#settings)
 - [ToolBars](#toolbars)
@@ -121,6 +122,51 @@ __Load all layers from GeoPackage__
 
 
 &uparrow; [Back to top](#table-of-contents)
+
+
+Advanced TOC
+---
+
+__Root node__
+
+	root = QgsProject.instance().layerTreeRoot()
+	print (root)
+	print (root.children())
+	
+__Access the first child node__
+
+	child0 = root.children()[0]
+	print (child0)
+	print (type(child0))
+	print (isinstance(child0, QgsLayerTreeLayer))
+	print (child0.parent())
+
+__Find groups and nodes__
+
+	for child in root.children():
+	  if isinstance(child, QgsLayerTreeGroup):
+	    print ("- group: " + child.name())
+	  elif isinstance(child, QgsLayerTreeLayer):
+	    print ("- layer: " + child.name() + "  ID: " + child.layerId())
+    
+__Find group by name__
+
+	print (root.findGroup("Name"))
+
+__Add layer__
+
+	layer1 = QgsVectorLayer("Point?crs=EPSG:4326", "Layer 1", "memory")
+	QgsProject.instance().addMapLayer(layer1, False)
+	node_layer1 = root.addLayer(layer1)
+
+__Add Group__
+
+	node_group2 = QgsLayerTreeGroup("Group 2")
+	root.addChildNode(node_group2)
+
+
+&uparrow; [Back to top](#table-of-contents)
+
 
 Layers
 ---
