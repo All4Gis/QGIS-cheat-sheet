@@ -164,6 +164,51 @@ __Add Group__
 	node_group2 = QgsLayerTreeGroup("Group 2")
 	root.addChildNode(node_group2)
 
+__Add Node__
+	root.removeChildNode(node_group2)
+	root.removeLayer(layer1)
+
+__Move Node__
+
+	cloned_group1 = node_group1.clone()
+	root.insertChildNode(0, cloned_group1)
+	root.removeChildNode(node_group1)
+	
+__Rename None__
+
+	node_group1.setName("Group X")
+	node_layer2.setName("Layer X")
+
+__Changing visibility__
+
+	print (node_group1.isVisible())
+	node_group1.setItemVisibilityChecked(False)
+	node_layer2.setItemVisibilityChecked(False)
+
+__Expand Node__
+
+	print (node_group1.isExpanded())
+	node_group1.setExpanded(False)
+	
+__Node Signals__
+
+	def onWillAddChildren(node, indexFrom, indexTo):
+	  print ("WILL ADD", node, indexFrom, indexTo)
+
+	def onAddedChildren(node, indexFrom, indexTo):
+	  print ("ADDED", node, indexFrom, indexTo)
+
+	root.willAddChildren.connect(onWillAddChildren)
+	root.addedChildren.connect(onAddedChildren)
+
+__Create new TOC__
+
+	from qgis.gui import *
+	root = QgsProject.instance().layerTreeRoot()
+	model = QgsLayerTreeModel(root)
+	view = QgsLayerTreeView()
+	view.setModel(model)
+	view.show()
 
 &uparrow; [Back to top](#table-of-contents)
 
