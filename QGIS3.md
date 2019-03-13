@@ -263,6 +263,10 @@ __Get Active Layer__
 
 	layer = iface.activeLayer()
 
+__List All Layers__
+
+	names = [layer.name() for layer in QgsProject.instance().mapLayers().values()]
+	
 __Show methods__
 
 	dir(layer)
