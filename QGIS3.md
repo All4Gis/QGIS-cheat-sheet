@@ -379,8 +379,6 @@ https://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/index.html
 
 https://pcjericks.github.io/py-gdalogr-cookbook/index.html
 
-http://www.green-forums.info/greenlib/geolibrary/Lawhead%20J/QGIS%20Python%20Programming%20Cookbook.%2020%20%2852%29/QGIS%20Python%20Programming%20Cookboo%20-%20Lawhead%20J.pdf (a commercial 2015 book, but seems to have been released for download)
-
 &uparrow; [Back to top](#table-of-contents)
 
 Sources
