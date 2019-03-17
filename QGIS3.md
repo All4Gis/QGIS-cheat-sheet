@@ -379,6 +379,8 @@ https://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/index.html
 
 https://pcjericks.github.io/py-gdalogr-cookbook/index.html
 
+https://raw.githubusercontent.com/klakar/QGIS_resources/master/collections/Geosupportsystem/python/qgis_basemaps.py
+
 &uparrow; [Back to top](#table-of-contents)
 
 Sources
@@ -387,6 +389,8 @@ Sources
 <http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/>
 
 <http://qgis.org/api/>
+
+https://qgis.org/pyqgis/3.0/
 
 <https://stackoverflow.com/questions/tagged/qgis>
 
