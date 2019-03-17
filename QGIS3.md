@@ -77,6 +77,14 @@ __How many algorithms are there?__
 
 	len(QgsApplication.processingRegistry().algorithms())
 
+__How many providers are there?__
+
+	len(QgsApplication.processingRegistry().providers())
+
+__How many Expressions are there?__
+
+	len(QgsExpression.Functions()) 
+	
 &uparrow; [Back to top](#table-of-contents)
 
 TOC
