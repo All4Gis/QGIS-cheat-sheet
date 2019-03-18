@@ -139,6 +139,11 @@ __See the CRS__
 	    crs = layer.crs().authid()
 	    layer.setName(layer.name() + ' (' + crs + ')')
 
+__Set the CRS__
+
+	for layer in QgsProject().instance().mapLayers().values():
+	    layer.setCrs(QgsCoordinateReferenceSystem(4326, QgsCoordinateReferenceSystem.EpsgCrsId))
+
 __Load all layers from GeoPackage__
 
 	fileName = "sample.gpkg"
