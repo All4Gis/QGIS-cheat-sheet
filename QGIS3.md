@@ -158,6 +158,14 @@ __Load all layers from GeoPackage__
 		#Add layer to map
 		QgsProject.instance().addMapLayer(sub_vlayer)
 
+__Load tile layer (XYZ-Layer)__
+
+	def loadXYZ(url, name):
+		rasterLyr = QgsRasterLayer("type=xyz&url=" + url, name, "wms")
+		QgsProject.instance().addMapLayer(rasterLyr)
+
+	urlWithParams = 'type=xyz&url=https://a.tile.openstreetmap.org/%7Bz%7D/%7Bx%7D/%7By%7D.png&zmax=19&zmin=0&crs=EPSG3857'
+	loadXYZ(urlWithParams, 'OpenStreetMap')
 
 &uparrow; [Back to top](#table-of-contents)
 
