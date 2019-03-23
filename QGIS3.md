@@ -7,6 +7,7 @@ Cheat sheet for PyQgis
 
 - [UI](#ui)
 - [Canvas](#canvas)
+- [Decorators](#decorators)
 - [Processing algorithms](#processing-algorithms)
 - [TOC](#toc)
 - [Advanced TOC](#advanced-toc)
@@ -42,6 +43,83 @@ __Change Canvas color__
 
 	iface.mapCanvas().setCanvasColor(QtCore.Qt.black)		
 	iface.mapCanvas().refresh()
+
+&uparrow; [Back to top](#table-of-contents)
+
+Decorators
+---
+__CopyRight__
+
+	from PyQt5.QtCore import *
+	from PyQt5.QtGui import *
+
+	mQFont = "Sans Serif"
+	mQFontsize = 9
+	mLabelQString = "© QGIS 2019"
+	mMarginHorizontal = 0
+	mMarginVertical = 0
+	mLabelQColor = "#FF0000"
+
+	INCHES_TO_MM = 0.0393700787402
+	case = 2
+
+	def AddCopyRight(p,text,xOffset,yOffset):
+	    p.translate( xOffset , yOffset  )
+	    text.drawContents(p)
+	    p.setWorldTransform( p.worldTransform() )
+
+	def _onRenderComplete(p):
+	    deviceHeight = p.device().height()
+	    deviceWidth  = p.device().width()
+	    text = QTextDocument()
+	    font = QFont()
+	    font.setFamily(mQFont)
+	    font.setPointSize(int(mQFontsize))
+	    text.setDefaultFont(font)
+	    style = "<style type=\"text/css\"> p {color: " + mLabelQColor + "}</style>"
+	    text.setHtml( style + "<p>" + mLabelQString + "</p>" )
+	    size = text.size()
+
+	    # RenderMillimeters
+	    pixelsInchX  = p.device().logicalDpiX()
+	    pixelsInchY  = p.device().logicalDpiY()
+	    xOffset  = pixelsInchX  * INCHES_TO_MM * int(mMarginHorizontal)
+	    yOffset  = pixelsInchY  * INCHES_TO_MM * int(mMarginVertical)
+
+	    if case == 0:
+		# Top Left
+		AddCopyRight(p, text, xOffset, yOffset)
+
+	    elif case == 1:
+		# Bottom Left
+		yOffset = deviceHeight - yOffset - size.height()
+		AddCopyRight(p, text, xOffset, yOffset)
+
+	    elif case == 2:
+		# Top Right
+		xOffset  = deviceWidth  - xOffset - size.width()
+		AddCopyRight(p, text, xOffset, yOffset)
+
+	    elif case == 3: 
+		# Bottom Right
+		yOffset  = deviceHeight - yOffset - size.height()
+		xOffset  = deviceWidth  - xOffset - size.width()
+		AddCopyRight(p, text, xOffset, yOffset)
+
+	    elif case == 4:
+		# Top Center
+		xOffset = deviceWidth / 2
+		AddCopyRight(p, text, xOffset, yOffset)
+	    else:
+		# Bottom Center
+		yOffset = deviceHeight - yOffset - size.height()
+		xOffset = deviceWidth / 2
+		AddCopyRight(p, text, xOffset, yOffset)
+
+
+	iface.mapCanvas().renderComplete.connect(_onRenderComplete)
+	iface.mapCanvas().refresh()
+
 
 &uparrow; [Back to top](#table-of-contents)
 
