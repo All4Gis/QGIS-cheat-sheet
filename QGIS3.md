@@ -177,7 +177,7 @@ __Obtain Layers name__
 	canvas = iface.mapCanvas()
 	layers = [canvas.layer(i) for i in range(canvas.layerCount())]
 	layers_names = [ layer.name() for layer in layers ]
-	print "layers TOC = ", layers_names
+	print ("layers TOC = ", layers_names)
 	
 	or
 	
@@ -188,13 +188,13 @@ __Add vector layer__
 
 	layer = iface.addVectorLayer("input.shp", "name", "ogr")
 	if not layer:
-	  print "Layer failed to load!"
+	  print ("Layer failed to load!")
 
 __Find layer by name__
 
 	from qgis.core import QgsProject
 	layer = QgsProject.instance().mapLayersByName("name")[0]
-	print layer.name()
+	print (layer.name())
 
 __Set Active layer__
 
