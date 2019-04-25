@@ -289,6 +289,7 @@ __Add Group__
 	root.addChildNode(node_group2)
 
 __Add Node__
+
 	root.removeChildNode(node_group2)
 	root.removeLayer(layer1)
 
