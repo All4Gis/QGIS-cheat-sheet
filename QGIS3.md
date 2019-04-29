@@ -247,6 +247,8 @@ __Load tile layer (XYZ-Layer)__
 	
 __Load WCS layer__
 
+	import urllib.parse
+	
 	# Make WCS Uri
 	def makeWCSuri( url, layer ):  
 	    params = {  'dpiMode': 7 ,
