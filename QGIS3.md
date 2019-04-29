@@ -244,6 +244,24 @@ __Load tile layer (XYZ-Layer)__
 
 	urlWithParams = 'type=xyz&url=https://a.tile.openstreetmap.org/%7Bz%7D/%7Bx%7D/%7By%7D.png&zmax=19&zmin=0&crs=EPSG3857'
 	loadXYZ(urlWithParams, 'OpenStreetMap')
+	
+__Load WCS layer__
+
+	# Make WCS Uri
+	def makeWCSuri( url, layer ):  
+	    params = {  'dpiMode': 7 ,
+			'identifier': layer,
+			'url': url.split('?')[0]  } 
+
+	    uri = urllib.parse.unquote( urllib.parse.urlencode(params)  )
+	    return uri 
+
+	### Raster layer from WCS
+	rlayername = 'DEP3ElevationPrototype'
+	wcsUri = makeWCSuri('https://elevation.nationalmap.gov/arcgis/services/3DEPElevation/ImageServer/WCSServer', rlayername )
+	rlayer = QgsRasterLayer(wcsUri, 'DEP3ElevationPrototype', 'wcs')
+	if not rlayer.isValid():
+	  print ("Layer failed to load!")
 
 &uparrow; [Back to top](#table-of-contents)
 
