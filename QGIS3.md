@@ -15,7 +15,6 @@ Cheat sheet for PyQgis
 - [Settings](#settings)
 - [ToolBars](#toolbars)
 - [Menus](#menus)
-- [Common PyQGIS functions](#common-pyqgis-functions)
 - [Sources](#sources)
 
 
@@ -23,25 +22,33 @@ UI
 ---
 __Change Look & Feel__
 
+	from qgis.PyQt.QtWidgets import QApplication
+
 	app = QApplication.instance()
-	qss_file = open(r"style.qss").read()
+	qss_file = open(r"/path/to/style/file.qss").read()
 	app.setStyleSheet(qss_file)
 
 __Change Icon and Title__
 
-	icon = QIcon(r"logo.png")
-	iface.mainWindow().setWindowIcon(icon)	
-	iface.mainWindow().setWindowTitle("CNE")
+	from qgis.PyQt.QtGui import QIcon
+
+	icon = QIcon(r"/path/to/logo/file.png")
+	iface.mainWindow().setWindowIcon(icon)  
+	iface.mainWindow().setWindowTitle("My QGIS")
 
 Canvas
 ---
 __Access Canvas__
 
+	from qgis.utils import iface
+
 	canvas = iface.mapCanvas()
 
 __Change Canvas color__
 
-	iface.mapCanvas().setCanvasColor(QtCore.Qt.black)		
+	from qgis.PyQt.QtCore import Qt
+
+	iface.mapCanvas().setCanvasColor(Qt.black)    
 	iface.mapCanvas().refresh()
 
 &uparrow; [Back to top](#table-of-contents)
@@ -50,8 +57,9 @@ Decorators
 ---
 __CopyRight__
 
-	from PyQt5.QtCore import *
-	from PyQt5.QtGui import *
+
+	from qgis.PyQt.Qt import QTextDocument
+	from qgis.PyQt.QtGui import QFont
 
 	mQFont = "Sans Serif"
 	mQFontsize = 9
@@ -60,64 +68,69 @@ __CopyRight__
 	mMarginVertical = 0
 	mLabelQColor = "#FF0000"
 
-	INCHES_TO_MM = 0.0393700787402
+	INCHES_TO_MM = 0.0393700787402 # 1 millimeter = 0.0393700787402 inches
 	case = 2
 
-	def AddCopyRight(p,text,xOffset,yOffset):
-	    p.translate( xOffset , yOffset  )
-	    text.drawContents(p)
-	    p.setWorldTransform( p.worldTransform() )
+	def add_copyright(p, text, x_offset, y_offset):
+	p.translate( xOffset , yOffset  )
+	text.drawContents(p)
+	p.setWorldTransform( p.worldTransform() )
 
-	def _onRenderComplete(p):
-	    deviceHeight = p.device().height()
-	    deviceWidth  = p.device().width()
-	    text = QTextDocument()
-	    font = QFont()
-	    font.setFamily(mQFont)
-	    font.setPointSize(int(mQFontsize))
-	    text.setDefaultFont(font)
-	    style = "<style type=\"text/css\"> p {color: " + mLabelQColor + "}</style>"
-	    text.setHtml( style + "<p>" + mLabelQString + "</p>" )
-	    size = text.size()
+	def _on_render_complete(p):
+	deviceHeight = p.device().height() # Get paint device height on which this painter is currently painting
+	deviceWidth  = p.device().width() # Get paint device width on which this painter is currently painting
+	# Create new container for structured rich text
+	text = QTextDocument()
+	font = QFont()
+	font.setFamily(mQFont)
+	font.setPointSize(int(mQFontsize))
+	text.setDefaultFont(font)
+	style = "<style type=\"text/css\"> p {color: " + mLabelQColor + "}</style>"
+	text.setHtml( style + "<p>" + mLabelQString + "</p>" )
+	# Text Size
+	size = text.size()
 
-	    # RenderMillimeters
-	    pixelsInchX  = p.device().logicalDpiX()
-	    pixelsInchY  = p.device().logicalDpiY()
-	    xOffset  = pixelsInchX  * INCHES_TO_MM * int(mMarginHorizontal)
-	    yOffset  = pixelsInchY  * INCHES_TO_MM * int(mMarginVertical)
+	# RenderMillimeters
+	pixelsInchX  = p.device().logicalDpiX()
+	pixelsInchY  = p.device().logicalDpiY()
+	xOffset  = pixelsInchX  * INCHES_TO_MM * int(mMarginHorizontal)
+	yOffset  = pixelsInchY  * INCHES_TO_MM * int(mMarginVertical)
 
-	    if case == 0:
-		# Top Left
-		AddCopyRight(p, text, xOffset, yOffset)
+	# Calculate positions
+	if case == 0:
+	    # Top Left
+	    add_copyright(p, text, xOffset, yOffset)
 
-	    elif case == 1:
-		# Bottom Left
-		yOffset = deviceHeight - yOffset - size.height()
-		AddCopyRight(p, text, xOffset, yOffset)
+	elif case == 1:
+	    # Bottom Left
+	    yOffset = deviceHeight - yOffset - size.height()
+	    add_copyright(p, text, xOffset, yOffset)
 
-	    elif case == 2:
-		# Top Right
-		xOffset  = deviceWidth  - xOffset - size.width()
-		AddCopyRight(p, text, xOffset, yOffset)
+	elif case == 2:
+	    # Top Right
+	    xOffset  = deviceWidth  - xOffset - size.width()
+	    add_copyright(p, text, xOffset, yOffset)
 
-	    elif case == 3: 
-		# Bottom Right
-		yOffset  = deviceHeight - yOffset - size.height()
-		xOffset  = deviceWidth  - xOffset - size.width()
-		AddCopyRight(p, text, xOffset, yOffset)
+	elif case == 3: 
+	    # Bottom Right
+	    yOffset  = deviceHeight - yOffset - size.height()
+	    xOffset  = deviceWidth  - xOffset - size.width()
+	    add_copyright(p, text, xOffset, yOffset)
 
-	    elif case == 4:
-		# Top Center
-		xOffset = deviceWidth / 2
-		AddCopyRight(p, text, xOffset, yOffset)
-	    else:
-		# Bottom Center
-		yOffset = deviceHeight - yOffset - size.height()
-		xOffset = deviceWidth / 2
-		AddCopyRight(p, text, xOffset, yOffset)
+	elif case == 4:
+	    # Top Center
+	    xOffset = deviceWidth / 2
+	    add_copyright(p, text, xOffset, yOffset)
 
+	else:
+	    # Bottom Center
+	    yOffset = deviceHeight - yOffset - size.height()
+	    xOffset = deviceWidth / 2
+	    add_copyright(p, text, xOffset, yOffset)
 
-	iface.mapCanvas().renderComplete.connect(_onRenderComplete)
+	# Emitted when the canvas has rendered
+	iface.mapCanvas().renderComplete.connect(_on_render_complete)
+	# Repaint the canvas map
 	iface.mapCanvas().refresh()
 
 
@@ -128,40 +141,49 @@ Processing algorithms
 
 __Get algorithms list__
 
-	for alg in QgsApplication.processingRegistry().algorithms():
-		print("{}:{} --> {}".format(alg.provider().name(), alg.name(), alg.displayName()))
-	
-	# or 
-	
-	def alglist():
-	  s = ''
-	  for i in QgsApplication.processingRegistry().algorithms():
-	    l = i.displayName().ljust(50, "-")
-	    r = i.id()
-	    s += '{}--->{}\n'.format(l, r)
-	  print(s)
+    from qgis.core import QgsApplication
 
-	alglist()
+    for alg in QgsApplication.processingRegistry().algorithms():
+        print("{}:{} --> {}".format(alg.provider().name(), alg.name(), alg.displayName()))
+
+    # or 
+
+    def alglist():
+        s = ''
+        for i in QgsApplication.processingRegistry().algorithms():
+            l = i.displayName().ljust(50, "-")
+            r = i.id()
+            s += '{}--->{}\n'.format(l, r)
+        print(s)
+
+    alglist()
 
 __Get algorithms Help__
 
 Random selection
 
-	import processing
-	processing.algorithmHelp("qgis:randomselection")
+    import processing
+
+    processing.algorithmHelp("qgis:randomselection")
 
 
 __How many algorithms are there?__
 
-	len(QgsApplication.processingRegistry().algorithms())
+    from qgis.core import QgsApplication
+
+    len(QgsApplication.processingRegistry().algorithms())
 
 __How many providers are there?__
 
-	len(QgsApplication.processingRegistry().providers())
+    from qgis.core import QgsApplication
+
+    len(QgsApplication.processingRegistry().providers())
 
 __How many Expressions are there?__
 
-	len(QgsExpression.Functions()) 
+    from qgis.core import QgsExpression
+
+    len(QgsExpression.Functions()) 
 	
 &uparrow; [Back to top](#table-of-contents)
 
@@ -170,80 +192,95 @@ TOC
 
 __Access checked Layers__
 
-	iface.mapCanvas().layers()
+    from qgis.utils import iface
+
+    iface.mapCanvas().layers()
 
 __Obtain Layers name__
 
-	canvas = iface.mapCanvas()
-	layers = [canvas.layer(i) for i in range(canvas.layerCount())]
-	layers_names = [ layer.name() for layer in layers ]
-	print ("layers TOC = ", layers_names)
-	
-	or
-	
-	layers = [layer for layer in QgsProject.instance().mapLayers().values()]
+    canvas = iface.mapCanvas()
+    layers = [canvas.layer(i) for i in range(canvas.layerCount())]
+    layers_names = [ layer.name() for layer in layers ]
+    print("layers TOC = ", layers_names)
+
+    # or
+
+    layers = [layer for layer in QgsProject.instance().mapLayers().values()]
 
 
 __Add vector layer__
 
-	layer = iface.addVectorLayer("input.shp", "name", "ogr")
-	if not layer:
-	  print ("Layer failed to load!")
+    layer = iface.addVectorLayer("/path/to/shapefile/file.shp", "layer name you like", "ogr")
+    if not layer:
+        print("Layer failed to load!")
 
 __Find layer by name__
 
-	from qgis.core import QgsProject
-	layer = QgsProject.instance().mapLayersByName("name")[0]
-	print (layer.name())
+    from qgis.core import QgsProject
+
+    layer = QgsProject.instance().mapLayersByName("layer name you like")[0]
+    print(layer.name())
 
 __Set Active layer__
 
-	from qgis.core import QgsProject
-	layer = QgsProject.instance().mapLayersByName("name")[0]
-	iface.setActiveLayer(layer)
+    from qgis.core import QgsProject
+
+    layer = QgsProject.instance().mapLayersByName("layer name you like")[0]
+    iface.setActiveLayer(layer)
 
 __Remove all layers__
 
-	QgsProject.instance().removeAllMapLayers()
+    from qgis.core import QgsProject
+
+    QgsProject.instance().removeAllMapLayers()
 
 __Remove Contextual menu__
 
-	ltv = iface.layerTreeView()
-	ltv.setMenuProvider( None )	
+    ltv = iface.layerTreeView()
+    ltv.setMenuProvider( None ) 	
 
 __See the CRS__
 
-	for layer in QgsProject().instance().mapLayers().values():   
-	    crs = layer.crs().authid()
-	    layer.setName(layer.name() + ' (' + crs + ')')
+    from qgis.core import QgsProject
+
+    for layer in QgsProject().instance().mapLayers().values():   
+        crs = layer.crs().authid()
+        layer.setName('{} ({})'.format(layer.name(), crs))
 
 __Set the CRS__
 
-	for layer in QgsProject().instance().mapLayers().values():
-	    layer.setCrs(QgsCoordinateReferenceSystem(4326, QgsCoordinateReferenceSystem.EpsgCrsId))
+    from qgis.core import QgsProject, QgsCoordinateReferenceSystem
+
+    for layer in QgsProject().instance().mapLayers().values():
+        layer.setCrs(QgsCoordinateReferenceSystem(4326, QgsCoordinateReferenceSystem.EpsgCrsId))
+
 
 __Load all layers from GeoPackage__
 
-	fileName = "sample.gpkg"
-	layer = QgsVectorLayer(fileName,"test","ogr")
-	subLayers =layer.dataProvider().subLayers()
+    from qgis.core import QgsVectorLayer, QgsProject
 
-	for subLayer in subLayers:
-		name = subLayer.split('!!::!!')[1]
-		uri = "%s|layername=%s" % (fileName, name,)
-		#Create layer
-		sub_vlayer = QgsVectorLayer(uri, name, 'ogr')
-		#Add layer to map
-		QgsProject.instance().addMapLayer(sub_vlayer)
+    fileName = "/path/to/gpkg/file.gpkg"
+    layer = QgsVectorLayer(fileName,"test","ogr")
+    subLayers =layer.dataProvider().subLayers()
+
+    for subLayer in subLayers:
+        name = subLayer.split('!!::!!')[1]
+        uri = "%s|layername=%s" % (fileName, name,)
+        # Create layer
+        sub_vlayer = QgsVectorLayer(uri, name, 'ogr')
+        # Add layer to map
+        QgsProject.instance().addMapLayer(sub_vlayer)
 
 __Load tile layer (XYZ-Layer)__
 
-	def loadXYZ(url, name):
-		rasterLyr = QgsRasterLayer("type=xyz&url=" + url, name, "wms")
-		QgsProject.instance().addMapLayer(rasterLyr)
+    from qgis.core import QgsRasterLayer, QgsProject
 
-	urlWithParams = 'type=xyz&url=https://a.tile.openstreetmap.org/%7Bz%7D/%7Bx%7D/%7By%7D.png&zmax=19&zmin=0&crs=EPSG3857'
-	loadXYZ(urlWithParams, 'OpenStreetMap')
+    def loadXYZ(url, name):
+        rasterLyr = QgsRasterLayer("type=xyz&url=" + url, name, "wms")
+        QgsProject.instance().addMapLayer(rasterLyr)
+
+    urlWithParams = 'type=xyz&url=https://a.tile.openstreetmap.org/%7Bz%7D/%7Bx%7D/%7By%7D.png&zmax=19&zmin=0&crs=EPSG3857'
+    loadXYZ(urlWithParams, 'OpenStreetMap')
 	
 __Load WCS layer__
 
@@ -273,25 +310,32 @@ Advanced TOC
 
 __Root node__
 
-	root = QgsProject.instance().layerTreeRoot()
-	print (root)
-	print (root.children())
+    from qgis.core import QgsProject
+
+    root = QgsProject.instance().layerTreeRoot()
+    print (root)
+    print (root.children()
 	
 __Access the first child node__
 
-	child0 = root.children()[0]
-	print (child0)
-	print (type(child0))
-	print (isinstance(child0, QgsLayerTreeLayer))
-	print (child0.parent())
+    from qgis.core import QgsLayerTreeGroup, QgsLayerTreeLayer
+
+    child0 = root.children()[0]
+    print (child0)
+    print (type(child0))
+    print (isinstance(child0, QgsLayerTreeLayer))
+    print (child0.parent())
 
 __Find groups and nodes__
 
-	for child in root.children():
-	  if isinstance(child, QgsLayerTreeGroup):
-	    print ("- group: " + child.name())
-	  elif isinstance(child, QgsLayerTreeLayer):
-	    print ("- layer: " + child.name() + "  ID: " + child.layerId())
+    from qgis.core import QgsLayerTreeGroup, QgsLayerTreeLayer
+
+    for child in root.children():
+        if isinstance(child, QgsLayerTreeGroup):
+            print ("- group: " + child.name())
+        elif isinstance(child, QgsLayerTreeLayer):
+            print ("- layer: " + child.name() + "  ID: " + child.layerId())
+
     
 __Find group by name__
 
@@ -299,19 +343,26 @@ __Find group by name__
 
 __Add layer__
 
-	layer1 = QgsVectorLayer("Point?crs=EPSG:4326", "Layer 1", "memory")
-	QgsProject.instance().addMapLayer(layer1, False)
-	node_layer1 = root.addLayer(layer1)
+    from qgis.core import QgsVectorLayer, QgsProject
+
+    layer1 = QgsVectorLayer("Point?crs=EPSG:4326", "layer name you like", "memory")
+    QgsProject.instance().addMapLayer(layer1, False)
+    node_layer1 = root.addLayer(layer1)
 
 __Add Group__
 
-	node_group2 = QgsLayerTreeGroup("Group 2")
-	root.addChildNode(node_group2)
+    from qgis.core import QgsLayerTreeGroup
 
-__Add Node__
+    node_group2 = QgsLayerTreeGroup("Group 2")
+    root.addChildNode(node_group2)
+
+__Remove layer__
+
+	root.removeLayer(layer1)
+
+__Remove group__
 
 	root.removeChildNode(node_group2)
-	root.removeLayer(layer1)
 
 __Move Node__
 
@@ -337,17 +388,19 @@ __Expand Node__
 
 __Hidden Node Trick__
 
-	model = iface.layerTreeView().layerTreeModel()
-	ltv = iface.layerTreeView()
-	root = QgsProject.instance().layerTreeRoot()
+    from qgis.core import QgsProject
 
-	layer = QgsProject.instance().mapLayersByName(u'Name')[0]
-	node=root.findLayer( layer.id())
+    model = iface.layerTreeView().layerTreeModel()
+    ltv = iface.layerTreeView()
+    root = QgsProject.instance().layerTreeRoot()
 
-	index = model.node2index( node )
-	ltv.setRowHidden( index.row(), index.parent(), True )
-	node.setCustomProperty( 'nodeHidden', 'true')
-	ltv.setCurrentIndex(model.node2index(root))  
+    layer = QgsProject.instance().mapLayersByName('layer name you like')[0]
+    node=root.findLayer( layer.id())
+
+    index = model.node2index( node )
+    ltv.setRowHidden( index.row(), index.parent(), True )
+    node.setCustomProperty( 'nodeHidden', 'true')
+    ltv.setCurrentIndex(model.node2index(root))   
 
 __Node Signals__
 
@@ -362,12 +415,14 @@ __Node Signals__
 
 __Create new TOC__
 
-	from qgis.gui import *
-	root = QgsProject.instance().layerTreeRoot()
-	model = QgsLayerTreeModel(root)
-	view = QgsLayerTreeView()
-	view.setModel(model)
-	view.show()
+    from qgis.core import QgsProject, QgsLayerTreeModel
+    from qgis.gui import QgsLayerTreeView 
+    
+    root = QgsProject.instance().layerTreeRoot()
+    model = QgsLayerTreeModel(root)
+    view = QgsLayerTreeView()
+    view.setModel(model)
+    view.show()
 
 &uparrow; [Back to top](#table-of-contents)
 
@@ -377,7 +432,9 @@ Layers
 
 __Add Vector layer__
 
-	layer = iface.addVectorLayer("/path/to/shapefile/file.shp", "layer name you like", "ogr")
+    from qgis.utils import iface
+
+    layer = iface.addVectorLayer("/path/to/shapefile/file.shp", "layer name you like", "ogr")
 
 __Get Active Layer__
 
@@ -385,7 +442,9 @@ __Get Active Layer__
 
 __List All Layers__
 
-	names = [layer.name() for layer in QgsProject.instance().mapLayers().values()]
+    from qgis.core import QgsProject
+
+    names = [layer.name() for layer in QgsProject.instance().mapLayers().values()]
 	
 __Show methods__
 
@@ -405,14 +464,16 @@ __Get Features__
  
 __Hide a field column__
 
-	def fieldVisibility (layer,fname):
-	  setup = QgsEditorWidgetSetup('Hidden', {})
-	  for i, column in enumerate(layer.fields()):
-	    if column.name()==fname:
-	      layer.setEditorWidgetSetup(idx, setup)
-		break
-	    else:
-	      continue
+    from qgis.core import QgsEditorWidgetSetup
+
+    def fieldVisibility (layer,fname):
+        setup = QgsEditorWidgetSetup('Hidden', {})
+        for i, column in enumerate(layer.fields()):
+            if column.name()==fname:
+                layer.setEditorWidgetSetup(idx, setup)
+                break
+            else:
+                continue
 	      
 __Move geometry__      
 
@@ -422,18 +483,22 @@ __Move geometry__
 
 __Adding new feature__
 
-	iface.openFeatureForm(iface.activeLayer(), QgsFeature(), False)
+    from qgis.core import QgsFeature
+
+    iface.openFeatureForm(iface.activeLayer(), QgsFeature(), False)
 
 __Layer from WKT__
 
-	layer = QgsVectorLayer('Polygon?crs=epsg:4326', 'Mississippi', 'memory')
-	pr = layer.dataProvider()
-	poly = QgsFeature()
-	geom = QgsGeometry.fromWkt("POLYGON ((-88.82 34.99,-88.0934.89,-88.39 30.34,-89.57 30.18,-89.73 31,-91.63 30.99,-90.8732.37,-91.23 33.44,-90.93 34.23,-90.30 34.99,-88.82 34.99))")
-	poly.setGeometry(geom)
-	pr.addFeatures([poly])
-	layer.updateExtents()
-	QgsProject.instance().addMapLayers([layer])
+    from qgis.core import QgsVectorLayer, QgsFeature, QgsGeometry, QgsProject
+
+    layer = QgsVectorLayer('Polygon?crs=epsg:4326', 'Mississippi', 'memory')
+    pr = layer.dataProvider()
+    poly = QgsFeature()
+    geom = QgsGeometry.fromWkt("POLYGON ((-88.82 34.99,-88.0934.89,-88.39 30.34,-89.57 30.18,-89.73 31,-91.63 30.99,-90.8732.37,-91.23 33.44,-90.93 34.23,-90.30 34.99,-88.82 34.99))")
+    poly.setGeometry(geom)
+    pr.addFeatures([poly])
+    layer.updateExtents()
+    QgsProject.instance().addMapLayers([layer])
 
 &uparrow; [Back to top](#table-of-contents)
 
@@ -442,7 +507,7 @@ Settings
 
 __Get QSettings list__
 
-	from PyQt5.QtCore import QSettings
+	from qgis.PyQt.QtCore import QgsSettings
 	qs = QSettings()
 
 	for k in sorted(qs.allKeys()):
@@ -456,13 +521,14 @@ ToolBars
 
 __Remove Toolbar__
 
-	toolbar = iface.helpToolBar()	
-	parent = toolbar.parentWidget()
-	parent.removeToolBar(toolbar)
+    from qgis.utils import iface
 
-	#and add again
-	
-	parent.addToolBar(toolbar)
+    toolbar = iface.helpToolBar()   
+    parent = toolbar.parentWidget()
+    parent.removeToolBar(toolbar)
+
+    # and add again
+    parent.addToolBar(toolbar)
 
 __Remove actions toolbar__
 
@@ -478,41 +544,34 @@ Menus
 
 __Remove Menu__
 
-	menu = iface.helpMenu()	
-	menubar = menu.parentWidget()
-	menubar.removeAction(menu.menuAction())
+    from qgis.utils import iface
 
-	#and add again
-	menubar.addAction(menu.menuAction())
+    # for example Help Menu
+    menu = iface.helpMenu() 
+    menubar = menu.parentWidget()
+    menubar.removeAction(menu.menuAction())
 
+    # and add again
+    menubar.addAction(menu.menuAction())
 
-&uparrow; [Back to top](#table-of-contents)
-
-Common PyQGIS functions
----
-
-https://github.com/boundlessgeo/lib-qgis-commons
-
-https://github.com/inasafe/inasafe/tree/master/safe/utilities
-
-https://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/index.html
-
-https://pcjericks.github.io/py-gdalogr-cookbook/index.html
-
-https://raw.githubusercontent.com/klakar/QGIS_resources/master/collections/Geosupportsystem/python/qgis_basemaps.py
 
 &uparrow; [Back to top](#table-of-contents)
+
 
 Sources
 ---
 
-<http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/>
+https://qgis.org/pyqgis/
 
-<http://qgis.org/api/>
+https://qgis.org/api/
 
-https://qgis.org/pyqgis/3.0/
+https://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/
 
-<https://stackoverflow.com/questions/tagged/qgis>
+https://stackoverflow.com/questions/tagged/qgis
+
+https://raw.githubusercontent.com/klakar/QGIS_resources/master/collections/Geosupportsystem/python/qgis_basemaps.py
+
+https://github.com/boundlessgeo/lib-qgis-commons
 
 &uparrow; [Back to top](#table-of-contents)
 
