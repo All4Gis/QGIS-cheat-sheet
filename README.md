@@ -1,6 +1,8 @@
 # QGIS 3 
 
-Integrated as a new section in the official [QGIS documentation](https://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/cheat_sheet.html)
+This repository has been integrated as a new section in the official [QGIS documentation](https://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/cheat_sheet.html).
+
+
 
 
 [QGIS 3 cheat sheet](https://github.com/All4Gis/QGIS-cheat-sheet/tree/master/QGIS3.md)
