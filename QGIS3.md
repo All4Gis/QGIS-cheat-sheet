@@ -460,6 +460,11 @@ __Get Features__
     selectedFeatures = layer.selectedFeatureIds()
     print(selectedFeatures)
 	
+ __Create memory layer from selected features__
+    
+    memory_layer = layer.materialize(QgsFeatureRequest().setFilterFids(layer.selectedFeatureIds()))
+    QgsProject.instance().addMapLayer(memory_layer)
+    
  __Get Geometry__
  
 	 for f in layer.getFeatures():
