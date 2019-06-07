@@ -455,6 +455,11 @@ __Get Features__
 	for f in layer.getFeatures():
 		print (f)
   
+ __Get Selected Features__
+
+    selectedFeatures = layer.selectedFeatureIds()
+    print(selectedFeatures)
+	
  __Get Geometry__
  
 	 for f in layer.getFeatures():
@@ -574,4 +579,3 @@ https://raw.githubusercontent.com/klakar/QGIS_resources/master/collections/Geosu
 https://github.com/boundlessgeo/lib-qgis-commons
 
 &uparrow; [Back to top](#table-of-contents)
-
