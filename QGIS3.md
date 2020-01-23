@@ -71,62 +71,62 @@ __CopyRight__
 	INCHES_TO_MM = 0.0393700787402 # 1 millimeter = 0.0393700787402 inches
 	case = 2
 
-	def add_copyright(p, text, x_offset, y_offset):
-	p.translate( xOffset , yOffset  )
-	text.drawContents(p)
-	p.setWorldTransform( p.worldTransform() )
+	def add_copyright(p, text, xOffset, yOffset):
+		p.translate( xOffset , yOffset  )
+		text.drawContents(p)
+		p.setWorldTransform( p.worldTransform() )
 
 	def _on_render_complete(p):
-	deviceHeight = p.device().height() # Get paint device height on which this painter is currently painting
-	deviceWidth  = p.device().width() # Get paint device width on which this painter is currently painting
-	# Create new container for structured rich text
-	text = QTextDocument()
-	font = QFont()
-	font.setFamily(mQFont)
-	font.setPointSize(int(mQFontsize))
-	text.setDefaultFont(font)
-	style = "<style type=\"text/css\"> p {color: " + mLabelQColor + "}</style>"
-	text.setHtml( style + "<p>" + mLabelQString + "</p>" )
-	# Text Size
-	size = text.size()
+		deviceHeight = p.device().height() # Get paint device height on which this painter is currently painting
+		deviceWidth  = p.device().width() # Get paint device width on which this painter is currently painting
+		# Create new container for structured rich text
+		text = QTextDocument()
+		font = QFont()
+		font.setFamily(mQFont)
+		font.setPointSize(int(mQFontsize))
+		text.setDefaultFont(font)
+		style = "<style type=\"text/css\"> p {color: " + mLabelQColor + "}</style>"
+		text.setHtml( style + "<p>" + mLabelQString + "</p>" )
+		# Text Size
+		size = text.size()
 
-	# RenderMillimeters
-	pixelsInchX  = p.device().logicalDpiX()
-	pixelsInchY  = p.device().logicalDpiY()
-	xOffset  = pixelsInchX  * INCHES_TO_MM * int(mMarginHorizontal)
-	yOffset  = pixelsInchY  * INCHES_TO_MM * int(mMarginVertical)
+		# RenderMillimeters
+		pixelsInchX  = p.device().logicalDpiX()
+		pixelsInchY  = p.device().logicalDpiY()
+		xOffset  = pixelsInchX  * INCHES_TO_MM * int(mMarginHorizontal)
+		yOffset  = pixelsInchY  * INCHES_TO_MM * int(mMarginVertical)
 
-	# Calculate positions
-	if case == 0:
-	    # Top Left
-	    add_copyright(p, text, xOffset, yOffset)
+		# Calculate positions
+		if case == 0:
+		    # Top Left
+		    add_copyright(p, text, xOffset, yOffset)
 
-	elif case == 1:
-	    # Bottom Left
-	    yOffset = deviceHeight - yOffset - size.height()
-	    add_copyright(p, text, xOffset, yOffset)
+		elif case == 1:
+		    # Bottom Left
+		    yOffset = deviceHeight - yOffset - size.height()
+	 	   add_copyright(p, text, xOffset, yOffset)
 
-	elif case == 2:
-	    # Top Right
-	    xOffset  = deviceWidth  - xOffset - size.width()
-	    add_copyright(p, text, xOffset, yOffset)
+		elif case == 2:
+		    # Top Right
+		    xOffset  = deviceWidth  - xOffset - size.width()
+		    add_copyright(p, text, xOffset, yOffset)
 
-	elif case == 3: 
-	    # Bottom Right
-	    yOffset  = deviceHeight - yOffset - size.height()
-	    xOffset  = deviceWidth  - xOffset - size.width()
-	    add_copyright(p, text, xOffset, yOffset)
+		elif case == 3: 
+	   		 # Bottom Right
+	   		 yOffset  = deviceHeight - yOffset - size.height()
+	   		 xOffset  = deviceWidth  - xOffset - size.width()
+	    		add_copyright(p, text, xOffset, yOffset)
 
-	elif case == 4:
-	    # Top Center
-	    xOffset = deviceWidth / 2
-	    add_copyright(p, text, xOffset, yOffset)
+		elif case == 4:
+	   		# Top Center
+	   		xOffset = deviceWidth / 2
+	    		add_copyright(p, text, xOffset, yOffset)
 
-	else:
-	    # Bottom Center
-	    yOffset = deviceHeight - yOffset - size.height()
-	    xOffset = deviceWidth / 2
-	    add_copyright(p, text, xOffset, yOffset)
+		else:
+	    		# Bottom Center
+	    		yOffset = deviceHeight - yOffset - size.height()
+	    		xOffset = deviceWidth / 2
+	    		add_copyright(p, text, xOffset, yOffset)
 
 	# Emitted when the canvas has rendered
 	iface.mapCanvas().renderComplete.connect(_on_render_complete)
